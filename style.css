@@ -1,0 +1,321 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, rgb(226, 0, 116) 0%, #c0005d 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: rgb(226, 0, 116);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.info {
+    font-size: 0.9rem;
+    color: #999;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-section:hover {
+    background: #f5f5f5;
+}
+
+.conditional-section {
+    border-left: 4px solid rgb(226, 0, 116);
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+/* Labels */
+.question-label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.required {
+    color: #e74c3c;
+    margin-left: 4px;
+}
+
+.helper-text {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+/* Radio Buttons */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.radio-label:hover {
+    border-color: rgb(226, 0, 116);
+    background: #fff0f7;
+}
+
+.radio-label input[type="radio"] {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"]:checked + span {
+    color: rgb(226, 0, 116);
+    font-weight: 600;
+}
+
+/* Checkboxes */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.checkbox-label:hover {
+    border-color: rgb(226, 0, 116);
+    background: #fff0f7;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"]:checked + span {
+    color: rgb(226, 0, 116);
+    font-weight: 600;
+}
+
+/* Buttons */
+.form-actions {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, rgb(226, 0, 116) 0%, #c0005d 100%);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 15px rgba(226, 0, 116, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(226, 0, 116, 0.6);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background: white;
+    color: rgb(226, 0, 116);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 12px 32px;
+    border: 2px solid rgb(226, 0, 116);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-top: 20px;
+}
+
+.btn-secondary:hover {
+    background: rgb(226, 0, 116);
+    color: white;
+}
+
+/* Success Message */
+.success-message {
+    text-align: center;
+    padding: 60px 40px;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, rgb(226, 0, 116) 0%, #c0005d 100%);
+    color: white;
+    font-size: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+}
+
+.success-message h2 {
+    font-size: 2rem;
+    color: rgb(226, 0, 116);
+    margin-bottom: 15px;
+}
+
+.success-message p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+    color: #999;
+}
+
+footer a {
+    color: rgb(226, 0, 116);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 24px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .form-section {
+        padding: 16px;
+    }
+
+    .question-label {
+        font-size: 1rem;
+    }
+
+    .radio-label,
+    .checkbox-label {
+        padding: 10px 12px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 1.3rem;
+    }
+
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .success-message h2 {
+        font-size: 1.5rem;
+    }
+}

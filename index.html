@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Adoption Survey - T-Mobile Developers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Adoption Survey</h1>
+            <p class="subtitle">Help us understand your experience with AI tools before the training session</p>
+            <p class="info">Takes about 2 minutes • All responses are collected anonymously</p>
+        </header>
+
+        <form id="questionnaireForm">
+            <!-- Question 1: Team -->
+            <section class="form-section">
+                <div class="form-group">
+                    <label class="question-label">1. Which team are you on?<span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="team" value="digital" required>
+                            <span>Digital</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="team" value="omnichannel" required>
+                            <span>Omnichannel</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 2: Position -->
+            <section class="form-section">
+                <div class="form-group">
+                    <label class="question-label">2. What is your role?<span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="position" value="developer" required>
+                            <span>Developer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="position" value="analyst" required>
+                            <span>Analyst</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="position" value="qa" required>
+                            <span>QA Engineer</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="position" value="business" required>
+                            <span>Business/Product</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 3: Seniority -->
+            <section class="form-section">
+                <div class="form-group">
+                    <label class="question-label">3. What is your seniority level?<span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="seniority" value="junior" required>
+                            <span>Junior</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="seniority" value="mid" required>
+                            <span>Mid</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="seniority" value="senior" required>
+                            <span>Senior</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="seniority" value="lead" required>
+                            <span>Lead/Principal</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 4: Uses AI -->
+            <section class="form-section">
+                <div class="form-group">
+                    <label class="question-label">4. Do you use AI tools?<span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="usesAI" value="yes-work" required>
+                            <span>Yes, for work</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="usesAI" value="yes-personal" required>
+                            <span>Yes, for personal projects/learning</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="usesAI" value="yes-both" required>
+                            <span>Yes, both work and personal</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="usesAI" value="no" required>
+                            <span>No, I don't use AI tools</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 5: Which Tools -->
+            <section class="form-section">
+                <div class="form-group">
+                    <label class="question-label">5. Which AI tools have you used?<span class="required">*</span></label>
+                    <p class="helper-text">Select all that apply</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="tools" value="claude">
+                            <span>Claude</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="tools" value="gemini">
+                            <span>Gemini</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="tools" value="chatgpt">
+                            <span>ChatGPT</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="tools" value="copilot">
+                            <span>GitHub Copilot</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="tools" value="other">
+                            <span>Other</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="tools" value="none">
+                            <span>None</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 6: Frequency -->
+            <section class="form-section">
+                <div class="form-group">
+                    <label class="question-label">6. How often do you use AI tools for work?<span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="frequency" value="daily" required>
+                            <span>Daily</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="frequency" value="weekly" required>
+                            <span>Weekly</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="frequency" value="monthly" required>
+                            <span>Monthly</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="frequency" value="rarely" required>
+                            <span>Rarely</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="frequency" value="tried-gave-up" required>
+                            <span>I tried it but gave up</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="frequency" value="never" required>
+                            <span>Never</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 7: Satisfaction (conditional) -->
+            <section class="form-section conditional-section" id="satisfactionSection" style="display: none;">
+                <div class="form-group">
+                    <label class="question-label">7. Do you think AI tools help you with your work?<span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="satisfaction" value="very-helpful">
+                            <span>Very helpful - significant productivity boost</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="satisfaction" value="helpful">
+                            <span>Helpful - makes some tasks easier</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="satisfaction" value="neutral">
+                            <span>Neutral - sometimes helpful, sometimes not</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="satisfaction" value="not-helpful">
+                            <span>Not helpful - doesn't improve my work</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="satisfaction" value="na">
+                            <span>N/A - I don't use AI for work</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 8: Work Usage (conditional) -->
+            <section class="form-section conditional-section" id="workUsageSection" style="display: none;">
+                <div class="form-group">
+                    <label class="question-label">8. How do you use AI for work?<span class="required">*</span></label>
+                    <p class="helper-text">Select all that apply</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="workUsage" value="web-interface">
+                            <span>Chat interface (web browser)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="workUsage" value="ide-extensions">
+                            <span>IDE extensions (Cline, GitHub Copilot)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="workUsage" value="cli">
+                            <span>CLI tools (Claude Code, etc.)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="workUsage" value="m365">
+                            <span>M365 Copilot (Word, Excel, PowerPoint)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="workUsage" value="none">
+                            <span>I don't use AI for work</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 9: Use Cases (conditional) -->
+            <section class="form-section conditional-section" id="useCasesSection" style="display: none;">
+                <div class="form-group">
+                    <label class="question-label">9. What do you use AI for?<span class="required">*</span></label>
+                    <p class="helper-text">Select all that apply</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="coding">
+                            <span>Code/script generation</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="debugging">
+                            <span>Debugging & troubleshooting</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="test-cases">
+                            <span>Writing/reviewing test cases</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="data-analysis">
+                            <span>Data analysis & SQL queries</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="documentation">
+                            <span>Writing documentation</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="requirements">
+                            <span>Requirements & specifications</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="learning">
+                            <span>Learning new concepts</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="reports">
+                            <span>Report generation</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="research">
+                            <span>Research & information gathering</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="useCases" value="other">
+                            <span>Other</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 10: Task Complexity (conditional) -->
+            <section class="form-section conditional-section" id="taskComplexitySection" style="display: none;">
+                <div class="form-group">
+                    <label class="question-label">10. What level of tasks do you typically use AI for?<span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="taskComplexity" value="snippets">
+                            <span>Quick answers and simple tasks (closely supervised)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="taskComplexity" value="small-tasks">
+                            <span>Complete discrete tasks (carefully verified)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="taskComplexity" value="moderate">
+                            <span>Multi-step workflows (some guidance)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="taskComplexity" value="complex">
+                            <span>Complex end-to-end work (minimal supervision)</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" id="submitBtn">Submit Survey</button>
+            </div>
+        </form>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message" style="display: none;">
+            <div class="success-icon">✓</div>
+            <h2>Thank you!</h2>
+            <p>Your response has been recorded successfully.</p>
+            <a href="dashboard.html" class="btn-secondary">View Results Dashboard</a>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Built with Claude Code • <a href="dashboard.html">View Dashboard</a></p>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="questionnaire.js"></script>
+</body>
+</html>
