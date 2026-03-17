@@ -105,7 +105,7 @@ function renderCharts(responses) {
     renderComplexityByRoleChart(responses);
 }
 
-// Color schemes
+// Color schemes - more distinct colors
 const colors = {
     primary: 'rgb(226, 0, 116)',
     secondary: '#c0005d',
@@ -113,13 +113,13 @@ const colors = {
     accent2: '#ff1f75',
     accent3: '#990052',
     palette: [
-        'rgb(226, 0, 116)',
-        '#ff6b9d',
-        '#c0005d',
-        '#ff1f75',
-        '#990052',
-        '#ff9cc4',
-        '#800046'
+        '#E20074',  // Magenta Pink (T-Mobile primary)
+        '#00D9E0',  // Cyan
+        '#7B61FF',  // Purple
+        '#FFB400',  // Orange
+        '#00A651',  // Green
+        '#FF6B9D',  // Light Pink
+        '#990052'   // Dark Magenta
     ]
 };
 
@@ -132,7 +132,7 @@ function renderTeamChart(responses) {
             labels: ['Digital', 'Omnichannel'],
             datasets: [{
                 data: [teamCounts.digital || 0, teamCounts.omnichannel || 0],
-                backgroundColor: [colors.primary, colors.accent1]
+                backgroundColor: [colors.palette[0], colors.palette[1]]
             }]
         },
         options: {
@@ -159,7 +159,7 @@ function renderPositionChart(responses) {
             labels: labels,
             datasets: [{
                 data: data,
-                backgroundColor: colors.palette
+                backgroundColor: colors.palette.slice(0, 4)
             }]
         },
         options: {
@@ -186,7 +186,7 @@ function renderSeniorityChart(responses) {
             labels: labels,
             datasets: [{
                 data: data,
-                backgroundColor: colors.palette
+                backgroundColor: colors.palette.slice(0, 4)
             }]
         },
         options: {
@@ -223,7 +223,7 @@ function renderToolsChart(responses) {
             datasets: [{
                 label: 'Users',
                 data: data,
-                backgroundColor: colors.primary
+                backgroundColor: colors.palette.slice(0, 5)
             }]
         },
         options: {
@@ -259,7 +259,7 @@ function renderFrequencyChart(responses) {
             labels: labels,
             datasets: [{
                 data: data,
-                backgroundColor: colors.palette
+                backgroundColor: colors.palette.slice(0, 6)
             }]
         },
         options: {
@@ -295,7 +295,7 @@ function renderWorkUsageChart(responses) {
             datasets: [{
                 label: 'Users',
                 data: data,
-                backgroundColor: colors.primary
+                backgroundColor: colors.palette.slice(0, 4)
             }]
         },
         options: {
@@ -336,6 +336,9 @@ function renderUseCasesChart(responses) {
     const labels = Object.keys(labelMap).map(key => labelMap[key]);
     const data = Object.keys(labelMap).map(key => useCaseCounts[key] || 0);
 
+    // Create a repeating pattern of colors for 10 items
+    const backgroundColors = [...colors.palette, ...colors.palette.slice(0, 3)];
+
     new Chart(document.getElementById('useCasesChart'), {
         type: 'bar',
         data: {
@@ -343,7 +346,7 @@ function renderUseCasesChart(responses) {
             datasets: [{
                 label: 'Users',
                 data: data,
-                backgroundColor: colors.primary
+                backgroundColor: backgroundColors.slice(0, 10)
             }]
         },
         options: {
@@ -377,7 +380,7 @@ function renderSatisfactionChart(responses) {
             labels: labels,
             datasets: [{
                 data: data,
-                backgroundColor: [colors.primary, colors.accent1, colors.accent2, colors.accent3]
+                backgroundColor: colors.palette.slice(0, 4)
             }]
         },
         options: {
@@ -387,41 +390,50 @@ function renderSatisfactionChart(responses) {
     });
 }
 
-// Task Complexity (Bar)
+// Task Complexity (Doughnut with percentages)
 function renderTaskComplexityChart(responses) {
-    const complexityCounts = countBy(responses.filter(r => r.taskComplexity !== 'na'), 'taskComplexity');
+    const validResponses = responses.filter(r => r.taskComplexity !== 'na');
+    const complexityCounts = countBy(validResponses, 'taskComplexity');
     const labels = ['Quick answers', 'Discrete tasks', 'Multi-step workflows', 'Complex end-to-end'];
-    const data = [
+    const counts = [
         complexityCounts.snippets || 0,
         complexityCounts['small-tasks'] || 0,
         complexityCounts.moderate || 0,
         complexityCounts.complex || 0
     ];
 
+    const total = validResponses.length;
+    const percentages = counts.map(count => total > 0 ? ((count / total) * 100).toFixed(1) : 0);
+
     new Chart(document.getElementById('taskComplexityChart'), {
-        type: 'bar',
+        type: 'doughnut',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Users',
-                data: data,
-                backgroundColor: colors.primary
+                data: percentages,
+                backgroundColor: colors.palette.slice(0, 4)
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { precision: 0 }
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed + '%';
+                        }
+                    }
+                },
+                legend: {
+                    position: 'bottom'
                 }
             }
         }
     });
 }
 
-// AI Adoption by Team (Grouped Bar)
+// AI Adoption by Team (100% Stacked Bar)
 function renderAdoptionByTeamChart(responses) {
     const teams = ['digital', 'omnichannel'];
     const frequencies = ['daily', 'weekly', 'monthly', 'rarely', 'never'];
@@ -430,7 +442,9 @@ function renderAdoptionByTeamChart(responses) {
         return {
             label: freq.charAt(0).toUpperCase() + freq.slice(1).replace('-', ' '),
             data: teams.map(team => {
-                return responses.filter(r => r.team === team && r.frequency === freq).length;
+                const teamResponses = responses.filter(r => r.team === team);
+                const freqCount = responses.filter(r => r.team === team && r.frequency === freq).length;
+                return teamResponses.length > 0 ? ((freqCount / teamResponses.length) * 100).toFixed(1) : 0;
             }),
             backgroundColor: colors.palette[index]
         };
@@ -446,26 +460,48 @@ function renderAdoptionByTeamChart(responses) {
             responsive: true,
             maintainAspectRatio: true,
             scales: {
+                x: {
+                    stacked: true
+                },
                 y: {
+                    stacked: true,
                     beginAtZero: true,
-                    ticks: { precision: 0 }
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y + '%';
+                        }
+                    }
                 }
             }
         }
     });
 }
 
-// AI Adoption by Position (Grouped Bar)
+// AI Adoption by Position (100% Stacked Bar)
 function renderAdoptionByPositionChart(responses) {
     const positions = ['developer', 'analyst', 'qa', 'business'];
     const positionLabels = ['Developer', 'Analyst', 'QA', 'Business'];
 
     const usesAI = positions.map(pos => {
-        return responses.filter(r => r.position === pos && r.usesAI !== 'no').length;
+        const posResponses = responses.filter(r => r.position === pos);
+        const aiCount = responses.filter(r => r.position === pos && r.usesAI !== 'no').length;
+        return posResponses.length > 0 ? ((aiCount / posResponses.length) * 100).toFixed(1) : 0;
     });
 
     const doesNotUse = positions.map(pos => {
-        return responses.filter(r => r.position === pos && r.usesAI === 'no').length;
+        const posResponses = responses.filter(r => r.position === pos);
+        const noAiCount = responses.filter(r => r.position === pos && r.usesAI === 'no').length;
+        return posResponses.length > 0 ? ((noAiCount / posResponses.length) * 100).toFixed(1) : 0;
     });
 
     new Chart(document.getElementById('adoptionByPositionChart'), {
@@ -476,12 +512,12 @@ function renderAdoptionByPositionChart(responses) {
                 {
                     label: 'Uses AI',
                     data: usesAI,
-                    backgroundColor: colors.primary
+                    backgroundColor: colors.palette[0]
                 },
                 {
                     label: 'Does not use AI',
                     data: doesNotUse,
-                    backgroundColor: colors.accent1
+                    backgroundColor: colors.palette[1]
                 }
             ]
         },
@@ -489,26 +525,56 @@ function renderAdoptionByPositionChart(responses) {
             responsive: true,
             maintainAspectRatio: true,
             scales: {
+                x: {
+                    stacked: true
+                },
                 y: {
+                    stacked: true,
                     beginAtZero: true,
-                    ticks: { precision: 0 }
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y + '%';
+                        }
+                    }
                 }
             }
         }
     });
 }
 
-// AI Adoption by Seniority (Stacked Bar)
+// AI Adoption by Seniority (100% Stacked Bar)
 function renderAdoptionBySeniorityChart(responses) {
     const seniorities = ['junior', 'mid', 'senior', 'lead'];
     const seniorityLabels = ['Junior', 'Mid', 'Senior', 'Lead'];
     const frequencies = ['daily', 'weekly', 'monthly', 'rarely', 'never'];
 
+    // Calculate sample sizes
+    const sampleSizes = seniorities.map(sen =>
+        responses.filter(r => r.seniority === sen).length
+    );
+
+    // Create labels with sample sizes
+    const labelsWithCounts = seniorityLabels.map((label, index) =>
+        `${label} (n=${sampleSizes[index]})`
+    );
+
     const datasets = frequencies.map((freq, index) => {
         return {
             label: freq.charAt(0).toUpperCase() + freq.slice(1),
             data: seniorities.map(sen => {
-                return responses.filter(r => r.seniority === sen && r.frequency === freq).length;
+                const senResponses = responses.filter(r => r.seniority === sen);
+                const freqCount = responses.filter(r => r.seniority === sen && r.frequency === freq).length;
+                return senResponses.length > 0 ? ((freqCount / senResponses.length) * 100).toFixed(1) : 0;
             }),
             backgroundColor: colors.palette[index]
         };
@@ -517,7 +583,7 @@ function renderAdoptionBySeniorityChart(responses) {
     new Chart(document.getElementById('adoptionBySeniorityChart'), {
         type: 'bar',
         data: {
-            labels: seniorityLabels,
+            labels: labelsWithCounts,
             datasets: datasets
         },
         options: {
@@ -530,14 +596,35 @@ function renderAdoptionBySeniorityChart(responses) {
                 y: {
                     stacked: true,
                     beginAtZero: true,
-                    ticks: { precision: 0 }
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y + '%';
+                        },
+                        afterLabel: function(context) {
+                            const seniorityIndex = context.dataIndex;
+                            const sampleSize = sampleSizes[seniorityIndex];
+                            const percentage = parseFloat(context.parsed.y);
+                            const actualCount = Math.round((percentage * sampleSize) / 100);
+                            return `(${actualCount} of ${sampleSize} responses)`;
+                        }
+                    }
                 }
             }
         }
     });
 }
 
-// Satisfaction by Team (Grouped Bar)
+// Satisfaction by Team (100% Stacked Bar)
 function renderSatisfactionByTeamChart(responses) {
     const teams = ['digital', 'omnichannel'];
     const satisfactions = ['very-helpful', 'helpful', 'neutral', 'not-helpful'];
@@ -547,7 +634,9 @@ function renderSatisfactionByTeamChart(responses) {
         return {
             label: satLabels[index],
             data: teams.map(team => {
-                return responses.filter(r => r.team === team && r.satisfaction === sat).length;
+                const teamResponses = responses.filter(r => r.team === team && r.satisfaction !== 'na');
+                const satCount = responses.filter(r => r.team === team && r.satisfaction === sat).length;
+                return teamResponses.length > 0 ? ((satCount / teamResponses.length) * 100).toFixed(1) : 0;
             }),
             backgroundColor: colors.palette[index]
         };
@@ -563,16 +652,34 @@ function renderSatisfactionByTeamChart(responses) {
             responsive: true,
             maintainAspectRatio: true,
             scales: {
+                x: {
+                    stacked: true
+                },
                 y: {
+                    stacked: true,
                     beginAtZero: true,
-                    ticks: { precision: 0 }
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y + '%';
+                        }
+                    }
                 }
             }
         }
     });
 }
 
-// Satisfaction by Position (Grouped Bar)
+// Satisfaction by Position (100% Stacked Bar)
 function renderSatisfactionByPositionChart(responses) {
     const positions = ['developer', 'analyst', 'qa', 'business'];
     const positionLabels = ['Developer', 'Analyst', 'QA', 'Business'];
@@ -583,7 +690,9 @@ function renderSatisfactionByPositionChart(responses) {
         return {
             label: satLabels[index],
             data: positions.map(pos => {
-                return responses.filter(r => r.position === pos && r.satisfaction === sat).length;
+                const posResponses = responses.filter(r => r.position === pos && r.satisfaction !== 'na');
+                const satCount = responses.filter(r => r.position === pos && r.satisfaction === sat).length;
+                return posResponses.length > 0 ? ((satCount / posResponses.length) * 100).toFixed(1) : 0;
             }),
             backgroundColor: colors.palette[index]
         };
@@ -599,16 +708,34 @@ function renderSatisfactionByPositionChart(responses) {
             responsive: true,
             maintainAspectRatio: true,
             scales: {
+                x: {
+                    stacked: true
+                },
                 y: {
+                    stacked: true,
                     beginAtZero: true,
-                    ticks: { precision: 0 }
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y + '%';
+                        }
+                    }
                 }
             }
         }
     });
 }
 
-// Task Complexity by Role (Stacked Bar)
+// Task Complexity by Role (100% Stacked Bar)
 function renderComplexityByRoleChart(responses) {
     const positions = ['developer', 'analyst', 'qa', 'business'];
     const positionLabels = ['Developer', 'Analyst', 'QA', 'Business'];
@@ -619,7 +746,9 @@ function renderComplexityByRoleChart(responses) {
         return {
             label: complexityLabels[index],
             data: positions.map(pos => {
-                return responses.filter(r => r.position === pos && r.taskComplexity === comp).length;
+                const posResponses = responses.filter(r => r.position === pos && r.taskComplexity !== 'na');
+                const compCount = responses.filter(r => r.position === pos && r.taskComplexity === comp).length;
+                return posResponses.length > 0 ? ((compCount / posResponses.length) * 100).toFixed(1) : 0;
             }),
             backgroundColor: colors.palette[index]
         };
@@ -641,7 +770,21 @@ function renderComplexityByRoleChart(responses) {
                 y: {
                     stacked: true,
                     beginAtZero: true,
-                    ticks: { precision: 0 }
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y + '%';
+                        }
+                    }
                 }
             }
         }
